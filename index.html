@@ -823,13 +823,30 @@ document.getElementById('recStart').addEventListener('click',async()=>{
     const mr=new MediaRecorder(stream,{mimeType,videoBitsPerSecond:6000000});
     mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data)};
     mr.onstop=()=>{
-      const blob=new Blob(chunks,{type:'video/webm'});
+      const blob=new Blob(chunks,{type:mimeType});
       const url=URL.createObjectURL(blob);
-      const a=document.createElement('a');
-      a.href=url; a.download='Zubair-Umair-Wedding-Invitation.webm';
-      document.body.appendChild(a); a.click();
-      document.body.removeChild(a);
-      setTimeout(()=>URL.revokeObjectURL(url),5000);
+      // Try direct download first; if blocked, open in new tab so user can save manually
+      try{
+        const a=document.createElement('a');
+        a.href=url;
+        a.download='Zubair-Umair-Wedding-Invitation.webm';
+        a.style.display='none';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }catch(e){}
+      // Always open in new tab as fallback so video is never lost
+      setTimeout(()=>{
+        const w=window.open(url,'_blank');
+        if(!w){
+          // If popup blocked, show a persistent download link
+          const bar=document.createElement('div');
+          bar.style.cssText='position:fixed;bottom:0;left:0;right:0;background:#1a1206;color:#E8C878;font-family:sans-serif;font-size:14px;padding:16px 24px;z-index:9999;display:flex;align-items:center;gap:16px;border-top:1px solid rgba(201,148,58,.3)';
+          bar.innerHTML='🎬 Video ready — <a href="'+url+'" download="Zubair-Umair-Wedding-Invitation.webm" style="color:#E8C878;font-weight:bold">Click here to download</a>';
+          document.body.appendChild(bar);
+        }
+      },300);
+      setTimeout(()=>URL.revokeObjectURL(url),120000);
       stream.getTracks().forEach(t=>t.stop());
       recording=false;
       recBtn.textContent='🎬 Download Video';
