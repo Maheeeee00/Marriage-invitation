@@ -825,34 +825,29 @@ document.getElementById('recStart').addEventListener('click',async()=>{
     mr.onstop=()=>{
       const blob=new Blob(chunks,{type:mimeType});
       const url=URL.createObjectURL(blob);
-      // Try direct download first; if blocked, open in new tab so user can save manually
-      try{
-        const a=document.createElement('a');
-        a.href=url;
-        a.download='Zubair-Umair-Wedding-Invitation.webm';
-        a.style.display='none';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }catch(e){}
-      // Always open in new tab as fallback so video is never lost
-      setTimeout(()=>{
-        const w=window.open(url,'_blank');
-        if(!w){
-          // If popup blocked, show a persistent download link
-          const bar=document.createElement('div');
-          bar.style.cssText='position:fixed;bottom:0;left:0;right:0;background:#1a1206;color:#E8C878;font-family:sans-serif;font-size:14px;padding:16px 24px;z-index:9999;display:flex;align-items:center;gap:16px;border-top:1px solid rgba(201,148,58,.3)';
-          bar.innerHTML='🎬 Video ready — <a href="'+url+'" download="Zubair-Umair-Wedding-Invitation.webm" style="color:#E8C878;font-weight:bold">Click here to download</a>';
-          document.body.appendChild(bar);
-        }
-      },300);
-      setTimeout(()=>URL.revokeObjectURL(url),120000);
       stream.getTracks().forEach(t=>t.stop());
       recording=false;
       recBtn.textContent='🎬 Download Video';
       recBtn.style.background='rgba(0,0,0,.55)';
       recStatus.style.display='none';
       recProg.style.width='0%';
+      // Show save overlay
+      const overlay=document.createElement('div');
+      overlay.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;font-family:Cinzel,serif';
+      overlay.innerHTML=`
+        <div style="color:#E8C878;font-size:clamp(13px,3vw,17px);letter-spacing:.15em;text-align:center">🎬 Your video is ready!</div>
+        <a id="dlBtn" href="${url}" download="Zubair-Umair-Wedding-Invitation.webm"
+           style="display:inline-block;padding:16px 40px;background:#C9943A;color:#0E0C0A;font-family:Cinzel,serif;font-size:15px;letter-spacing:.2em;border-radius:3px;text-decoration:none;font-weight:700;cursor:pointer">
+          ⬇ SAVE VIDEO
+        </a>
+        <div style="color:rgba(255,255,255,.4);font-size:11px;letter-spacing:.1em;text-align:center;max-width:280px">
+          Click the button above to save.<br>Or right-click → Save link as…
+        </div>
+        <button onclick="this.parentElement.remove();URL.revokeObjectURL('${url}')"
+          style="margin-top:8px;background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.45);font-family:Cinzel,serif;font-size:10px;letter-spacing:.2em;padding:8px 20px;cursor:pointer;border-radius:2px">
+          CLOSE
+        </button>`;
+      document.body.appendChild(overlay);
     };
 
     mr.start(300);
