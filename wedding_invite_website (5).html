@@ -1,0 +1,992 @@
+<title>Rana Zubair & Rana Umair — Wedding Invitation</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;500;700&family=Great+Vibes&family=Scheherazade+New:wght@400;700&display=swap"><style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:#0E0C0A}
+
+/* ═══ ENVELOPE SCREEN ═══════════════════════════════════ */
+#env{
+  position:fixed;inset:0;z-index:300;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  overflow:hidden;
+  transition:opacity 1s ease,transform 1s ease;
+}
+#env.gone{opacity:0;transform:scale(1.08);pointer-events:none}
+
+/* Rich background */
+.env-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(135deg,#1A0510 0%,#2D0A1E 30%,#1E0A28 60%,#2A0D18 100%);
+}
+.env-bg::after{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 70% at 50% 50%, rgba(180,60,100,.22) 0%, transparent 70%);
+}
+
+/* Stars */
+.stars{position:absolute;inset:0;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle var(--d,3s) ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:var(--lo,.1)}to{opacity:var(--hi,.7)}}
+
+/* corner flora */
+.env-flora{position:absolute;pointer-events:none}
+.env-flora.tl{top:0;left:0}
+.env-flora.tr{top:0;right:0;transform:scaleX(-1)}
+.env-flora.bl{bottom:0;left:0;transform:scaleY(-1)}
+.env-flora.br{bottom:0;right:0;transform:scale(-1)}
+
+/* eyebrow */
+.env-eye{
+  position:relative;z-index:2;
+  font-family:'Cinzel',serif;font-size:clamp(8px,1.8vw,10px);
+  letter-spacing:.6em;color:rgba(232,192,90,.7);text-transform:uppercase;
+  margin-bottom:20px;
+  animation:fadeUp .8s ease .3s both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(-14px)}to{opacity:1;transform:none}}
+
+/* envelope wrap */
+.env-wrap{
+  position:relative;z-index:2;cursor:pointer;
+  user-select:none;-webkit-tap-highlight-color:transparent;
+  animation:fadeUp 1s ease .5s both;
+  display:flex;flex-direction:column;align-items:center;gap:0;
+}
+.env-3d{
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1);
+  display:flex;flex-direction:column;align-items:center;
+}
+.env-wrap:hover .env-3d{transform:perspective(1000px) rotateX(6deg) translateY(-8px)}
+
+/* envelope */
+.env-body{
+  position:relative;
+  width:min(340px,82vw);
+  aspect-ratio:1.618/1;
+  background:linear-gradient(160deg,#FFF0F4 0%,#FDD8E8 50%,#F8C4D8 100%);
+  border-radius:4px 4px 12px 12px;
+  box-shadow:
+    0 0 0 1px rgba(255,200,220,.25),
+    0 2px 0 rgba(255,255,255,.6) inset,
+    0 30px 80px rgba(180,40,80,.5),
+    0 8px 30px rgba(180,40,80,.3),
+    0 0 120px rgba(180,40,80,.15);
+  perspective:1000px;
+}
+/* crease lines */
+.env-body::before{
+  content:'';position:absolute;inset:0;z-index:2;pointer-events:none;border-radius:4px 4px 12px 12px;
+  background:
+    linear-gradient(135deg,transparent 49.5%,rgba(210,90,120,.09) 49.5%,rgba(210,90,120,.09) 50.5%,transparent 50.5%),
+    linear-gradient(225deg,transparent 49.5%,rgba(210,90,120,.09) 49.5%,rgba(210,90,120,.09) 50.5%,transparent 50.5%);
+}
+.env-border{position:absolute;inset:7px;border:1px solid rgba(210,90,120,.2);border-radius:3px 3px 8px 8px;z-index:1;pointer-events:none}
+.env-left{position:absolute;top:0;left:0;width:52%;height:100%;background:linear-gradient(135deg,#FAD5E5 0%,#F8C4D8 100%);clip-path:polygon(0 0,0 100%,100% 100%);z-index:2}
+.env-right{position:absolute;top:0;right:0;width:52%;height:100%;background:linear-gradient(225deg,#FAD5E5 0%,#F8C4D8 100%);clip-path:polygon(100% 0,0 100%,100% 100%);z-index:2}
+.env-btm{position:absolute;bottom:0;left:0;right:0;height:56%;background:linear-gradient(0deg,#FDD8E8 0%,#FBE4EE 100%);clip-path:polygon(0 100%,100% 100%,55% 0,45% 0);z-index:3}
+.env-flap{
+  position:absolute;top:0;left:0;right:0;height:56%;
+  background:linear-gradient(155deg,#FFE8F0 0%,#F8CCDE 60%,#F0B8CC 100%);
+  clip-path:polygon(0 0,100% 0,50% 90%);
+  transform-origin:top center;transform-style:preserve-3d;
+  transition:transform .8s cubic-bezier(.4,0,.2,1);
+  border-radius:4px 4px 0 0;z-index:8;
+  filter:drop-shadow(0 5px 12px rgba(180,40,80,.2));
+}
+.env-flap::after{content:'';position:absolute;inset:0;background:linear-gradient(165deg,rgba(255,255,255,.4) 0%,transparent 50%);clip-path:polygon(0 0,100% 0,50% 90%)}
+.env-wrap.open .env-flap{transform:rotateX(-180deg)}
+
+/* WAX SEAL */
+.wax-seal{
+  position:absolute;left:50%;top:60%;
+  transform:translate(-50%,-50%);
+  z-index:15;width:76px;height:76px;
+  animation:sealGlow 2.5s ease-in-out infinite;
+  transition:opacity .35s,transform .35s;
+}
+.env-wrap.open .wax-seal{opacity:0;transform:translate(-50%,-50%) scale(.4)}
+@keyframes sealGlow{
+  0%,100%{filter:drop-shadow(0 0 8px rgba(210,160,50,.6)) drop-shadow(0 0 20px rgba(210,160,50,.3))}
+  50%{filter:drop-shadow(0 0 20px rgba(210,160,50,.9)) drop-shadow(0 0 40px rgba(210,160,50,.5))}
+}
+
+/* tap */
+.tap-wrap{margin-top:6px;display:flex;flex-direction:column;align-items:center;gap:8px;animation:tapBob 2s ease-in-out infinite}
+@keyframes tapBob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+.tap-txt{font-family:'Great Vibes',cursive;font-size:clamp(20px,5vw,28px);color:#E8C05A}
+.tap-arr{display:flex;gap:6px}
+.tap-arr span{
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(232,192,90,.55);
+  animation:dotPop 1.4s ease-in-out infinite;
+}
+.tap-arr span:nth-child(2){animation-delay:.2s}
+.tap-arr span:nth-child(3){animation-delay:.4s}
+@keyframes dotPop{0%,100%{transform:translateY(0);opacity:.35}50%{transform:translateY(-6px);opacity:.95}}
+
+/* ═══ INVITATION — SLIDE PAGES ═══════════════════════════ */
+#invite{
+  position:fixed;inset:0;z-index:100;
+  overflow-y:scroll;overflow-x:hidden;
+  scroll-snap-type:y mandatory;
+  scrollbar-width:none;
+  opacity:0;pointer-events:none;
+  transition:opacity 1.2s ease;
+}
+#invite::-webkit-scrollbar{display:none}
+#invite.show{opacity:1;pointer-events:auto}
+
+/* petal canvas */
+#petals{position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.55}
+
+/* dot nav */
+.dot-nav{
+  position:fixed;right:16px;top:50%;transform:translateY(-50%);
+  z-index:200;display:flex;flex-direction:column;gap:10px;
+  transition:opacity .4s;
+}
+.dot-nav.hidden{opacity:0}
+.dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.5);
+  cursor:pointer;transition:all .3s;
+}
+.dot.active{background:#C9943A;border-color:#C9943A;transform:scale(1.3)}
+
+/* ══ GLOBAL SLIDE BG — one unified palette ══ */
+:root{
+  --bg:     #0E0C0A;   /* warm near-black               */
+  --bg2:    #151210;   /* slightly lighter panel         */
+  --gold:   #C9943A;
+  --gold-lt:#E8C878;
+  --cream:  #F4ECD8;   /* warm ivory text                */
+  --muted:  rgba(244,236,216,.45);
+  --border: rgba(201,148,58,.22);
+}
+
+/* ── every SLIDE ── */
+.slide{
+  width:100%;height:100vh;flex-shrink:0;
+  scroll-snap-align:start;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  background:var(--bg);
+  padding:max(24px,env(safe-area-inset-top,0px))
+          max(20px,env(safe-area-inset-right,0px))
+          max(24px,env(safe-area-inset-bottom,0px))
+          max(20px,env(safe-area-inset-left,0px));
+}
+
+/* Shared subtle radial glow — same warm gold across all slides */
+.slide::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 50% 48%,
+    rgba(180,130,50,.07) 0%, transparent 70%);
+}
+
+/* Thin horizontal rules top & bottom of each slide */
+.slide::after{
+  content:'';position:absolute;left:10%;right:10%;
+  height:1px;bottom:0;
+  background:linear-gradient(90deg,transparent,var(--border),transparent);
+  pointer-events:none;
+}
+
+/* ── SLIDE 1: HERO ── */
+.s1{display:flex;align-items:center;justify-content:center}
+
+.hero-arch{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.7;pointer-events:none;z-index:0}
+.arch-p1{stroke-dasharray:2000;stroke-dashoffset:2000;animation:archDraw 2.5s ease .4s forwards}
+.arch-p2{stroke-dasharray:1800;stroke-dashoffset:1800;animation:archDraw 2.2s ease .7s forwards}
+@keyframes archDraw{to{stroke-dashoffset:0}}
+
+.hero-inner{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;padding:0 max(20px,8vw);margin-top:auto;margin-bottom:auto}
+.h-bism{font-family:'Scheherazade New',serif;font-size:clamp(24px,5.5vw,38px);color:var(--gold-lt);direction:rtl;line-height:1.5;opacity:0;animation:slideUp 1s ease .8s both}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.h-label{font-family:'Cinzel',serif;font-size:clamp(7px,1.6vw,9px);letter-spacing:.55em;color:rgba(201,148,58,.6);text-transform:uppercase;opacity:0;animation:slideUp .8s ease 1.2s both}
+.h-divider{display:flex;align-items:center;gap:12px;width:55%;opacity:0;animation:slideUp .7s ease 1.4s both;margin:10px 0}
+.h-div-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--border))}
+.h-div-gem{width:6px;height:6px;background:var(--gold);transform:rotate(45deg);opacity:.6;flex-shrink:0}
+.h-div-r{flex:1;height:1px;background:linear-gradient(270deg,transparent,var(--border))}
+.h-name-a{font-family:'Great Vibes',cursive;font-size:clamp(38px,9.5vw,64px);color:var(--cream);line-height:1.05;opacity:0;animation:slideUp 1s ease 1.6s both}
+.h-amp{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(24px,6vw,40px);color:var(--gold);opacity:0;animation:slideUp .8s ease 1.85s both;margin:2px 0}
+.h-name-b{font-family:'Great Vibes',cursive;font-size:clamp(30px,7.5vw,50px);color:var(--cream);line-height:1.05;opacity:0;animation:slideUp 1s ease 2.05s both}
+.h-date{font-family:'Cinzel',serif;font-size:clamp(9px,2vw,11px);letter-spacing:.25em;color:rgba(201,148,58,.6);opacity:0;animation:slideUp .8s ease 2.3s both;margin-top:8px}
+
+/* scroll hint */
+.scroll-hint{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:slideUp .7s ease 2.8s both}
+.sh-lbl{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.5em;color:rgba(201,148,58,.35);text-transform:uppercase}
+.sh-line{width:1px;height:36px;background:rgba(201,148,58,.1);overflow:hidden;position:relative}
+.sh-line::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,var(--gold),transparent);animation:shFlow 1.8s ease-in-out infinite}
+@keyframes shFlow{0%{transform:translateY(-100%)}100%{transform:translateY(200%)}}
+
+/* ── SLIDES 2–5: identical warm dark bg, accent-only color ── */
+.s2,.s3,.s4,.s5{background:var(--bg)}
+
+/* ── EVENT CARD — clean luxury glass ── */
+.ev-card{
+  background:rgba(255,248,235,.03);
+  border:1px solid var(--border);
+  border-radius:2px;
+  padding:clamp(28px,5.5vw,44px) clamp(26px,6.5vw,52px);
+  text-align:center;max-width:400px;width:90%;
+  position:relative;overflow:hidden;
+  box-shadow:0 0 0 1px rgba(201,148,58,.06),
+             0 30px 70px rgba(0,0,0,.45);
+}
+/* single top accent line */
+.ev-card::before{
+  content:'';position:absolute;top:0;left:20%;right:20%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+.ev-card::after{
+  content:'';position:absolute;bottom:0;left:20%;right:20%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,148,58,.35),transparent);
+}
+
+/* corner marks */
+.cc{position:absolute;width:22px;height:22px;opacity:.3}
+.cc.tl{top:8px;left:8px}
+.cc.tr{top:8px;right:8px;transform:scaleX(-1)}
+.cc.bl{bottom:8px;left:8px;transform:scaleY(-1)}
+.cc.br{bottom:8px;right:8px;transform:scale(-1)}
+
+.ev-tag{font-family:'Cinzel',serif;font-size:clamp(7px,1.4vw,8.5px);letter-spacing:.5em;color:rgba(201,148,58,.55);text-transform:uppercase;display:block;margin-bottom:18px}
+.ev-icon{margin-bottom:12px;opacity:.65}
+.ev-big{font-family:'Great Vibes',cursive;font-size:clamp(48px,12vw,72px);color:var(--cream);line-height:1;margin-bottom:18px}
+.ev-date-box{display:flex;flex-direction:column;gap:3px}
+.ev-day{font-family:'Cinzel',serif;font-size:clamp(18px,4.5vw,26px);color:var(--gold-lt);font-weight:500;letter-spacing:.06em;line-height:1}
+.ev-wday{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(13px,3vw,16px);color:var(--muted);margin-top:5px}
+.ev-time{font-family:'Cinzel',serif;font-size:clamp(8px,1.8vw,10px);letter-spacing:.35em;color:rgba(244,236,216,.28);text-transform:uppercase;margin-top:8px}
+
+/* slide-in animations */
+.slide-in-l{opacity:0;transform:translateX(-36px);transition:opacity .9s ease,transform .9s ease}
+.slide-in-r{opacity:0;transform:translateX(36px);transition:opacity .9s ease,transform .9s ease}
+.slide-in-u{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s ease}
+.slide-in-l.in,.slide-in-r.in,.slide-in-u.in{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.25s}.d3{transition-delay:.4s}.d4{transition-delay:.55s}.d5{transition-delay:.7s}
+
+/* venue */
+.venue-pin{margin-bottom:16px;opacity:.6}
+.venue-big{font-family:'Great Vibes',cursive;font-size:clamp(42px,11vw,66px);color:var(--cream);line-height:1.05;text-align:center;margin-bottom:10px}
+.venue-detail{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(14px,3.5vw,19px);color:var(--muted);text-align:center;line-height:1.75}
+.venue-gold{color:var(--gold-lt);font-style:normal;font-weight:500}
+
+/* dua slide */
+.dua-bism{font-family:'Scheherazade New',serif;font-size:clamp(26px,6.5vw,44px);color:var(--gold-lt);direction:rtl;text-align:center;line-height:1.5;margin-bottom:22px}
+.dua-verse{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(14px,3.2vw,19px);color:var(--muted);text-align:center;line-height:1.9;max-width:440px}
+.dua-verse cite{display:block;margin-top:10px;font-size:.82em;color:rgba(201,148,58,.5);font-style:normal}
+.dua-heart{margin:22px 0;animation:hbeat 3s ease-in-out infinite}
+@keyframes hbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.1)}30%{transform:scale(1)}42%{transform:scale(1.06)}}
+.dua-names{font-family:'Great Vibes',cursive;font-size:clamp(28px,7vw,46px);color:var(--cream);text-align:center;line-height:1.2;margin-top:8px}
+
+/* section title badge */
+.sec-badge{display:flex;align-items:center;gap:14px;margin-bottom:26px}
+.sb-line{width:45px;height:1px;background:linear-gradient(90deg,transparent,var(--border))}
+.sb-line.r{background:linear-gradient(270deg,transparent,var(--border))}
+.sb-gem{width:5px;height:5px;background:var(--gold);transform:rotate(45deg);opacity:.55}
+.sb-txt{font-family:'Cinzel',serif;font-size:clamp(7px,1.5vw,9px);letter-spacing:.5em;color:rgba(201,148,58,.55);text-transform:uppercase}
+</style>
+
+<!-- ════════════ ENVELOPE SCREEN ════════════ -->
+<div id="env">
+  <div class="env-bg"></div>
+
+  <!-- stars -->
+  <div class="stars" id="stars"></div>
+
+  <!-- corner flora -->
+  <svg class="env-flora tl" width="220" height="220" viewBox="0 0 220 220" fill="none" opacity=".22">
+    <path d="M10 210 Q32 138 92 92 Q138 50 210 10" stroke="#E8C05A" stroke-width="1.5" fill="none"/>
+    <circle cx="92" cy="92" r="14" fill="none" stroke="#D4606A" stroke-width="1.3" opacity=".65"/>
+    <circle cx="92" cy="92" r="8" fill="#F8C0CA" opacity=".5"/>
+    <circle cx="92" cy="92" r="4" fill="#D4606A" opacity=".6"/>
+    <circle cx="140" cy="52" r="10" fill="none" stroke="#D4606A" stroke-width="1" opacity=".5"/>
+    <circle cx="140" cy="52" r="5" fill="#F8C0CA" opacity=".45"/>
+    <path d="M62 120 Q52 110 58 100 Q68 97 75 107 Q78 118 68 124Z" fill="#3D7040" opacity=".6"/>
+    <path d="M42 145 Q31 134 38 123 Q49 120 56 130 Q59 142 49 148Z" fill="#3D7040" opacity=".5"/>
+    <path d="M112 38 Q105 27 112 18 Q121 17 127 26 Q129 37 120 43Z" fill="#3D7040" opacity=".5"/>
+    <path d="M168 20 L169.5 26 L175 27 L169.5 28 L168 34 L166.5 28 L161 27 L166.5 26Z" fill="#E8C05A" opacity=".65"/>
+    <path d="M48 68 L49.2 72 L53 73 L49.2 74 L48 78 L46.8 74 L43 73 L46.8 72Z" fill="#E8C05A" opacity=".45"/>
+  </svg>
+  <svg class="env-flora tr" width="220" height="220" viewBox="0 0 220 220" fill="none" opacity=".22">
+    <path d="M10 210 Q32 138 92 92 Q138 50 210 10" stroke="#E8C05A" stroke-width="1.5" fill="none"/>
+    <circle cx="92" cy="92" r="14" fill="none" stroke="#D4606A" stroke-width="1.3" opacity=".65"/>
+    <circle cx="92" cy="92" r="8" fill="#F8C0CA" opacity=".5"/>
+    <circle cx="92" cy="92" r="4" fill="#D4606A" opacity=".6"/>
+    <circle cx="140" cy="52" r="10" fill="none" stroke="#D4606A" stroke-width="1" opacity=".5"/>
+    <circle cx="140" cy="52" r="5" fill="#F8C0CA" opacity=".45"/>
+    <path d="M62 120 Q52 110 58 100 Q68 97 75 107 Q78 118 68 124Z" fill="#3D7040" opacity=".6"/>
+    <path d="M112 38 Q105 27 112 18 Q121 17 127 26 Q129 37 120 43Z" fill="#3D7040" opacity=".5"/>
+    <path d="M168 20 L169.5 26 L175 27 L169.5 28 L168 34 L166.5 28 L161 27 L166.5 26Z" fill="#E8C05A" opacity=".65"/>
+  </svg>
+  <svg class="env-flora bl" width="220" height="220" viewBox="0 0 220 220" fill="none" opacity=".22">
+    <path d="M10 210 Q32 138 92 92 Q138 50 210 10" stroke="#E8C05A" stroke-width="1.5" fill="none"/>
+    <circle cx="92" cy="92" r="12" fill="none" stroke="#D4606A" stroke-width="1.2" opacity=".55"/>
+    <circle cx="92" cy="92" r="6" fill="#F8C0CA" opacity=".45"/>
+    <path d="M62 120 Q52 110 58 100 Q68 97 75 107 Q78 118 68 124Z" fill="#3D7040" opacity=".55"/>
+  </svg>
+  <svg class="env-flora br" width="220" height="220" viewBox="0 0 220 220" fill="none" opacity=".22">
+    <path d="M10 210 Q32 138 92 92 Q138 50 210 10" stroke="#E8C05A" stroke-width="1.5" fill="none"/>
+    <circle cx="92" cy="92" r="12" fill="none" stroke="#D4606A" stroke-width="1.2" opacity=".55"/>
+    <circle cx="92" cy="92" r="6" fill="#F8C0CA" opacity=".45"/>
+    <path d="M140 52 Q133 41 140 32 Q149 31 155 40 Q157 51 148 57Z" fill="#3D7040" opacity=".5"/>
+  </svg>
+
+  <p class="env-eye">You Are Cordially Invited</p>
+
+  <div class="env-wrap" id="envWrap" role="button" tabindex="0" aria-label="Open invitation">
+    <div class="env-3d">
+      <div class="env-body">
+        <div class="env-border"></div>
+        <div class="env-left"></div>
+        <div class="env-right"></div>
+        <div class="env-btm"></div>
+        <div class="env-flap"></div>
+        <!-- WAX SEAL -->
+        <div class="wax-seal">
+          <svg width="76" height="76" viewBox="0 0 76 76" fill="none">
+            <defs>
+              <radialGradient id="sg" cx="38%" cy="32%" r="66%">
+                <stop offset="0%" stop-color="#F0D070"/>
+                <stop offset="50%" stop-color="#C9943A"/>
+                <stop offset="100%" stop-color="#8A6020"/>
+              </radialGradient>
+              <filter id="sf"><feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#6A3A08" flood-opacity=".45"/></filter>
+            </defs>
+            <circle cx="38" cy="38" r="37" fill="url(#sg)" filter="url(#sf)"/>
+            <circle cx="38" cy="38" r="33" fill="none" stroke="rgba(255,225,130,.45)" stroke-width="1.2"/>
+            <path d="M38 7L40.8 24.5L58 18L44.5 30L60 36L43 38L51.5 52L38 42L24.5 52L33 38L16 36L31.5 30L18 18L35.2 24.5Z" fill="rgba(255,230,140,.5)"/>
+            <circle cx="38" cy="38" r="15" fill="rgba(140,80,12,.3)"/>
+            <circle cx="38" cy="38" r="12" fill="rgba(255,215,110,.2)"/>
+            <text x="38" y="35" font-family="Cinzel,serif" font-size="9" fill="#5A3010" text-anchor="middle" font-weight="700" letter-spacing="0.5">Z &amp; U</text>
+            <text x="38" y="45.5" font-family="Cormorant Garamond,serif" font-size="6" fill="rgba(70,30,5,.7)" text-anchor="middle" font-style="italic">2026</text>
+            <circle cx="38" cy="4"  r="2" fill="rgba(255,215,110,.75)"/>
+            <circle cx="38" cy="72" r="2" fill="rgba(255,215,110,.75)"/>
+            <circle cx="4"  cy="38" r="2" fill="rgba(255,215,110,.75)"/>
+            <circle cx="72" cy="38" r="2" fill="rgba(255,215,110,.75)"/>
+            <circle cx="11" cy="11" r="1.5" fill="rgba(255,215,110,.55)"/>
+            <circle cx="65" cy="11" r="1.5" fill="rgba(255,215,110,.55)"/>
+            <circle cx="11" cy="65" r="1.5" fill="rgba(255,215,110,.55)"/>
+            <circle cx="65" cy="65" r="1.5" fill="rgba(255,215,110,.55)"/>
+          </svg>
+        </div>
+      </div>
+      <div class="tap-wrap">
+        <span class="tap-txt">Tap to Open</span>
+        <div class="tap-arr"><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ PETAL CANVAS ════════════ -->
+<canvas id="petals"></canvas>
+
+<!-- ════════════ DOT NAVIGATION ════════════ -->
+<nav class="dot-nav hidden" id="dotNav">
+  <div class="dot active" data-slide="0"></div>
+  <div class="dot" data-slide="1"></div>
+  <div class="dot" data-slide="2"></div>
+  <div class="dot" data-slide="3"></div>
+  <div class="dot" data-slide="4"></div>
+  <div class="dot" data-slide="5"></div>
+</nav>
+
+<!-- ════════════ INVITATION ════════════ -->
+<div id="invite">
+
+  <!-- ── SLIDE 1: HERO ── -->
+  <section class="slide s1">
+    <!-- star twinkles (decorative) -->
+    <div class="stars" id="invStars" style="position:absolute;inset:0;pointer-events:none"></div>
+
+    <!-- Arch -->
+    <svg class="hero-arch" viewBox="0 0 500 900" preserveAspectRatio="xMidYMid slice" fill="none">
+      <defs>
+        <linearGradient id="ag1" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#F0D070"/>
+          <stop offset="60%" stop-color="#C9943A"/>
+          <stop offset="100%" stop-color="#8A6020"/>
+        </linearGradient>
+        <filter id="archGlow" x="-30%" y="-5%" width="160%" height="110%">
+          <feGaussianBlur stdDeviation="6" result="b"/>
+          <feComposite in="SourceGraphic" in2="b" operator="over"/>
+        </filter>
+      </defs>
+      <!-- Glow arch -->
+      <path d="M65 670 L65 235 Q65 60 250 60 Q435 60 435 235 L435 670" stroke="rgba(201,148,58,.2)" stroke-width="20" fill="none" filter="url(#archGlow)"/>
+      <!-- Main arch -->
+      <path class="arch-p1" d="M65 670 L65 235 Q65 60 250 60 Q435 60 435 235 L435 670" stroke="url(#ag1)" stroke-width="1.8" fill="none"/>
+      <!-- Inner arch -->
+      <path class="arch-p2" d="M90 670 L90 248 Q90 90 250 90 Q410 90 410 248 L410 670" stroke="#C9943A" stroke-width=".75" fill="none" opacity=".35"/>
+      <!-- Crown -->
+      <circle cx="250" cy="60" r="11" fill="none" stroke="#C9943A" stroke-width="1.8" opacity=".85"/>
+      <circle cx="250" cy="60" r="6" fill="#C9943A" opacity=".95"/>
+      <circle cx="250" cy="60" r="2.5" fill="#F0D070"/>
+      <path d="M232 44 Q250 28 268 44" stroke="#C9943A" stroke-width="1.4" fill="none" opacity=".6"/>
+      <path d="M222 34 Q250 14 278 34" stroke="#C9943A" stroke-width=".9" fill="none" opacity=".3"/>
+      <!-- Crown spires -->
+      <line x1="230" y1="47" x2="227" y2="36" stroke="#C9943A" stroke-width="1" opacity=".5"/>
+      <line x1="270" y1="47" x2="273" y2="36" stroke="#C9943A" stroke-width="1" opacity=".5"/>
+      <circle cx="227" cy="34" r="2.5" fill="#C9943A" opacity=".55"/>
+      <circle cx="273" cy="34" r="2.5" fill="#C9943A" opacity=".55"/>
+      <!-- Left roses -->
+      <circle cx="96" cy="158" r="13" fill="none" stroke="#D4606A" stroke-width="1.3" opacity=".6"/>
+      <circle cx="96" cy="158" r="7" fill="#F8B0C0" opacity=".45"/>
+      <circle cx="96" cy="158" r="3.5" fill="#D4606A" opacity=".6"/>
+      <circle cx="112" cy="136" r="9" fill="none" stroke="#D4606A" stroke-width="1" opacity=".45"/>
+      <circle cx="112" cy="136" r="4.5" fill="#F8B0C0" opacity=".4"/>
+      <!-- Right roses -->
+      <circle cx="404" cy="158" r="13" fill="none" stroke="#D4606A" stroke-width="1.3" opacity=".6"/>
+      <circle cx="404" cy="158" r="7" fill="#F8B0C0" opacity=".45"/>
+      <circle cx="404" cy="158" r="3.5" fill="#D4606A" opacity=".6"/>
+      <circle cx="388" cy="136" r="9" fill="none" stroke="#D4606A" stroke-width="1" opacity=".45"/>
+      <circle cx="388" cy="136" r="4.5" fill="#F8B0C0" opacity=".4"/>
+      <!-- Leaf sprigs left -->
+      <path d="M65 210 Q44 201 40 215 Q44 228 65 220" fill="#3D7040" opacity=".55"/>
+      <path d="M65 248 Q43 238 38 253 Q43 267 65 256" fill="#3D7040" opacity=".48"/>
+      <path d="M65 286 Q46 277 42 292 Q46 307 65 296" fill="#3D7040" opacity=".42"/>
+      <path d="M65 324 Q48 316 45 331 Q48 346 65 336" fill="#3D7040" opacity=".36"/>
+      <path d="M65 362 Q50 354 47 369 Q50 384 65 375" fill="#3D7040" opacity=".3"/>
+      <!-- Leaf sprigs right -->
+      <path d="M435 210 Q456 201 460 215 Q456 228 435 220" fill="#3D7040" opacity=".55"/>
+      <path d="M435 248 Q457 238 462 253 Q457 267 435 256" fill="#3D7040" opacity=".48"/>
+      <path d="M435 286 Q454 277 458 292 Q454 307 435 296" fill="#3D7040" opacity=".42"/>
+      <path d="M435 324 Q452 316 455 331 Q452 346 435 336" fill="#3D7040" opacity=".36"/>
+      <path d="M435 362 Q450 354 453 369 Q450 384 435 375" fill="#3D7040" opacity=".3"/>
+      <!-- Sparkles -->
+      <path d="M158 96 L159.4 101 L164 102 L159.4 103 L158 108 L156.6 103 L152 102 L156.6 101Z" fill="#E8C05A" opacity=".65"/>
+      <path d="M342 96 L343.4 101 L348 102 L343.4 103 L342 108 L340.6 103 L336 102 L340.6 101Z" fill="#E8C05A" opacity=".65"/>
+      <path d="M72 430 L73 434 L77 435 L73 436 L72 440 L71 436 L67 435 L71 434Z" fill="#E8C05A" opacity=".38"/>
+      <path d="M428 430 L429 434 L433 435 L429 436 L428 440 L427 436 L423 435 L427 434Z" fill="#E8C05A" opacity=".38"/>
+      <!-- Column base caps -->
+      <rect x="57" y="666" width="16" height="5" rx="2.5" fill="#C9943A" opacity=".45"/>
+      <rect x="427" y="666" width="16" height="5" rx="2.5" fill="#C9943A" opacity=".45"/>
+    </svg>
+
+    <div class="hero-inner">
+      <p class="h-bism">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيْم</p>
+      <p class="h-label">with the blessings of Allah</p>
+      <div class="h-divider">
+        <div class="h-div-line"></div>
+        <div class="h-div-gem"></div>
+        <div class="h-div-r"></div>
+      </div>
+      <p class="h-name-a">Rana Zubair Yaseen</p>
+      <p class="h-amp">&amp;</p>
+      <p class="h-name-b">Rana Umair Advocate</p>
+      <p class="h-date">November 2026 · Renala Khurd</p>
+    </div>
+
+    <div class="scroll-hint">
+      <span class="sh-lbl">Scroll</span>
+      <div class="sh-line"></div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 2: MEHENDI ── -->
+  <section class="slide s2">
+    <div class="sec-badge slide-in-u d1">
+      <div class="sb-line"></div>
+      <div class="sb-gem"></div>
+      <span class="sb-txt">First Ceremony</span>
+      <div class="sb-gem"></div>
+      <div class="sb-line r"></div>
+    </div>
+
+    <div class="ev-card slide-in-l d2">
+      <svg class="cc tl" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+      <svg class="cc tr" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+      <svg class="cc bl" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+      <svg class="cc br" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+
+      <span class="ev-tag">Mehendi Ceremony</span>
+      <div class="ev-icon">
+        <svg width="40" height="40" viewBox="0 0 44 44" fill="none">
+          <path d="M22 6C14 6 8 13 8 20C8 30 14 36 22 40C30 36 36 30 36 20C36 13 30 6 22 6Z" fill="none" stroke="#C9943A" stroke-width="1.4" opacity=".6"/>
+          <path d="M22 12C17 12 13 17 13 20C13 26 17 30 22 34C27 30 31 26 31 20C31 17 27 12 22 12Z" fill="rgba(201,148,58,.1)"/>
+          <circle cx="22" cy="20" r="5" fill="#C9943A" opacity=".55"/>
+          <path d="M16 13 Q22 7 28 13" stroke="#C9943A" stroke-width="1" fill="none" opacity=".4"/>
+        </svg>
+      </div>
+      <div class="ev-big">Mehendi</div>
+      <div class="ev-date-box">
+        <span class="ev-day">13 November 2026</span>
+        <span class="ev-wday">Thursday</span>
+        <span class="ev-time">Evening Festivities</span>
+      </div>
+      <div style="margin-top:14px;border-top:1px solid rgba(201,148,58,.15);padding-top:12px;display:flex;flex-direction:column;gap:3px">
+        <span style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.45em;color:rgba(201,148,58,.45);text-transform:uppercase">Venue</span>
+        <span style="font-family:'Great Vibes',cursive;font-size:24px;color:var(--cream);line-height:1.1">Tariq Garden</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12.5px;color:var(--muted)">Near DPS Tariq Garden, Renala Khurd</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 3: BARAT ── -->
+  <section class="slide s3">
+    <div class="sec-badge slide-in-u d1">
+      <div class="sb-line"></div>
+      <div class="sb-gem"></div>
+      <span class="sb-txt">Second Ceremony</span>
+      <div class="sb-gem"></div>
+      <div class="sb-line r"></div>
+    </div>
+
+    <div class="ev-card slide-in-r d2">
+      <svg class="cc tl" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+      <svg class="cc tr" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+      <svg class="cc bl" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+      <svg class="cc br" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+
+      <span class="ev-tag">Barat Ceremony</span>
+      <div class="ev-icon">
+        <svg width="40" height="40" viewBox="0 0 44 44" fill="none">
+          <circle cx="16" cy="22" r="10" fill="none" stroke="#C9943A" stroke-width="1.5" opacity=".6"/>
+          <circle cx="28" cy="22" r="10" fill="none" stroke="#C9943A" stroke-width="1.5" opacity=".6"/>
+          <path d="M22 14 Q24 22 22 30" stroke="#C9943A" stroke-width="1" fill="none" opacity=".45"/>
+          <path d="M16 12 L18 15 L16 18 L14 15Z" fill="#C9943A" opacity=".55"/>
+          <path d="M28 12 L30 15 L28 18 L26 15Z" fill="#C9943A" opacity=".55"/>
+        </svg>
+      </div>
+      <div class="ev-big">Barat</div>
+      <div class="ev-date-box">
+        <span class="ev-day">15 November 2026</span>
+        <span class="ev-wday">Saturday</span>
+        <span class="ev-time">Evening Celebration</span>
+      </div>
+      <div style="margin-top:14px;border-top:1px solid rgba(201,148,58,.15);padding-top:12px;display:flex;flex-direction:column;gap:3px">
+        <span style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.45em;color:rgba(201,148,58,.45);text-transform:uppercase">Venue</span>
+        <span style="font-family:'Great Vibes',cursive;font-size:24px;color:var(--cream);line-height:1.1">Tariq Garden</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12.5px;color:var(--muted)">Near DPS Tariq Garden, Renala Khurd</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 4: WALIMA ── -->
+  <section class="slide s4">
+    <div class="sec-badge slide-in-u d1">
+      <div class="sb-line"></div>
+      <div class="sb-gem"></div>
+      <span class="sb-txt">Third Ceremony</span>
+      <div class="sb-gem"></div>
+      <div class="sb-line r"></div>
+    </div>
+
+    <div class="ev-card slide-in-l d2">
+      <svg class="cc tl" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+      <svg class="cc tr" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+      <svg class="cc bl" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+      <svg class="cc br" viewBox="0 0 28 28" fill="none"><path d="M2 26Q2 2 26 2" stroke="#C9943A" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.8" fill="#C9943A" opacity=".5"/></svg>
+
+      <span class="ev-tag">Walima Reception</span>
+      <div class="ev-icon">
+        <svg width="40" height="40" viewBox="0 0 44 44" fill="none">
+          <!-- plate/dish icon -->
+          <ellipse cx="22" cy="28" rx="16" ry="5" fill="none" stroke="#C9943A" stroke-width="1.3" opacity=".5"/>
+          <path d="M6 28 Q6 18 22 18 Q38 18 38 28" fill="rgba(201,148,58,.08)" stroke="#C9943A" stroke-width="1.3" opacity=".6"/>
+          <path d="M14 18 Q14 10 22 8 Q30 10 30 18" fill="none" stroke="#C9943A" stroke-width="1" opacity=".45"/>
+          <circle cx="22" cy="14" r="3" fill="#C9943A" opacity=".5"/>
+          <!-- stars -->
+          <path d="M10 10 L10.8 12.5 L13 13 L10.8 13.5 L10 16 L9.2 13.5 L7 13 L9.2 12.5Z" fill="#C9943A" opacity=".4"/>
+          <path d="M34 8 L34.6 10 L36.5 10.5 L34.6 11 L34 13 L33.4 11 L31.5 10.5 L33.4 10Z" fill="#C9943A" opacity=".35"/>
+        </svg>
+      </div>
+      <div class="ev-big">Walima</div>
+      <div class="ev-date-box">
+        <span class="ev-day">16 November 2026</span>
+        <span class="ev-wday">Sunday</span>
+        <span class="ev-time">Lunch Reception</span>
+      </div>
+      <div style="margin-top:14px;border-top:1px solid rgba(201,148,58,.15);padding-top:12px;display:flex;flex-direction:column;gap:3px">
+        <span style="font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.45em;color:rgba(201,148,58,.45);text-transform:uppercase">Venue</span>
+        <span style="font-family:'Great Vibes',cursive;font-size:24px;color:var(--cream);line-height:1.1">Tariq Garden</span>
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12.5px;color:var(--muted)">Near DPS Tariq Garden, Renala Khurd</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SLIDE 5: VENUE ── -->
+  <section class="slide s4">
+    <div class="sec-badge slide-in-u d1">
+      <div class="sb-line"></div>
+      <div class="sb-gem"></div>
+      <span class="sb-txt">Venue</span>
+      <div class="sb-gem"></div>
+      <div class="sb-line r"></div>
+    </div>
+
+    <div class="venue-pin slide-in-u d2">
+      <svg width="48" height="60" viewBox="0 0 52 64" fill="none">
+        <path d="M26 2C12 2 2 13 2 26C2 43 26 62 26 62C26 62 50 43 50 26C50 13 40 2 26 2Z" fill="none" stroke="#C9943A" stroke-width="1.5" opacity=".7"/>
+        <circle cx="26" cy="26" r="10" fill="none" stroke="#C9943A" stroke-width="1.2" opacity=".5"/>
+        <circle cx="26" cy="26" r="4" fill="#C9943A" opacity=".65"/>
+      </svg>
+    </div>
+    <p class="venue-big slide-in-u d3">Tariq Garden</p>
+    <p class="venue-detail slide-in-u d4">
+      <span class="venue-gold">Near DPS Tariq Garden</span><br>
+      Renala Khurd
+    </p>
+  </section>
+
+  <!-- ── SLIDE 5: DUA / CLOSING ── -->
+  <section class="slide s5">
+    <p class="dua-bism slide-in-u d1">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيْم</p>
+
+    <div class="dua-heart slide-in-u d2">
+      <svg width="72" height="64" viewBox="0 0 80 72" fill="none">
+        <path d="M40 64C12 48 2 34 2 22C2 12 10 4 20 4C28 4 36 9 40 16C44 9 52 4 60 4C70 4 78 12 78 22C78 34 68 48 40 64Z" fill="none" stroke="#C9943A" stroke-width="1.5" opacity=".5"/>
+        <path d="M40 58C16 44 8 30 8 22C8 15 13 9 20 9C27 9 34 14 40 22C46 14 53 9 60 9C67 9 72 15 72 22C72 30 64 44 40 58Z" fill="rgba(201,148,58,.1)"/>
+        <path d="M40 52C20 40 12 28 12 22C12 17 16 13 20 13C26 13 33 18 40 26C47 18 54 13 60 13C64 13 68 17 68 22C68 28 60 40 40 52Z" fill="rgba(201,148,58,.06)"/>
+      </svg>
+    </div>
+
+    <p class="dua-verse slide-in-u d3">
+      "And of His signs is that He created for you mates from among yourselves,
+      that you may find tranquillity in them, and He placed between you affection and mercy."
+      <cite>— Surah Ar-Rum 30:21</cite>
+    </p>
+
+    <p class="dua-names slide-in-u d5">
+      Rana Zubair &amp; Rana Umair
+    </p>
+  </section>
+
+</div><!-- /invite -->
+
+
+<script>
+/* ═══ STARS ═══════════════════════════════════════════════ */
+function makeStars(container, count){
+  for(let i=0;i<count;i++){
+    const s=document.createElement('div');
+    const sz=Math.random()<0.15?3:Math.random()<0.4?2:1.2;
+    s.style.cssText=`position:absolute;border-radius:50%;background:#fff;
+      left:${Math.random()*100}%;top:${Math.random()*100}%;
+      width:${sz}px;height:${sz}px;
+      --lo:${0.05+Math.random()*.1};--hi:${0.4+Math.random()*.6};
+      --d:${2+Math.random()*4}s;
+      animation:twinkle var(--d) ${Math.random()*3}s ease-in-out infinite alternate;`;
+    container.appendChild(s);
+  }
+}
+makeStars(document.getElementById('stars'),100);
+makeStars(document.getElementById('invStars'),80);
+
+/* ═══ ENVELOPE OPEN ═══════════════════════════════════════ */
+const envEl=document.getElementById('env'), envWrap=document.getElementById('envWrap');
+const invite=document.getElementById('invite'), dotNav=document.getElementById('dotNav');
+let opened=false;
+function openEnvelope(){
+  if(opened)return; opened=true;
+  envWrap.classList.add('open');
+  setTimeout(()=>{
+    envEl.classList.add('gone');
+    invite.classList.add('show');
+    dotNav.classList.remove('hidden');
+    startPetals();
+  },750);
+  setTimeout(()=>{envEl.style.display='none'},1700);
+}
+envWrap.addEventListener('click',openEnvelope);
+envWrap.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')openEnvelope()});
+
+/* ═══ SCROLL SNAP + DOT NAV ═══════════════════════════════ */
+const slides=document.querySelectorAll('.slide');
+const dots=document.querySelectorAll('.dot');
+let curSlide=0;
+
+function activateDot(i){
+  dots.forEach((d,j)=>d.classList.toggle('active',i===j));
+  curSlide=i;
+}
+
+// IntersectionObserver for slide tracking
+const slideObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      const idx=[...slides].indexOf(e.target);
+      activateDot(idx);
+      // Animate elements inside this slide
+      e.target.querySelectorAll('.slide-in-l,.slide-in-r,.slide-in-u').forEach(el=>el.classList.add('in'));
+    }
+  });
+},{root:invite,threshold:0.55});
+slides.forEach(s=>slideObs.observe(s));
+
+// Dot click navigation
+dots.forEach(d=>d.addEventListener('click',()=>{
+  const i=+d.dataset.slide;
+  slides[i].scrollIntoView({behavior:'smooth'});
+}));
+
+// IntersectionObserver for generic .slide-in elements
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.classList.add('in');revealObs.unobserve(e.target)}
+  });
+},{threshold:0.15});
+document.querySelectorAll('.slide-in-l,.slide-in-r,.slide-in-u').forEach(el=>revealObs.observe(el));
+
+/* ═══ FALLING PETALS ═══════════════════════════════════════ */
+const canvas=document.getElementById('petals'), ctx=canvas.getContext('2d');
+let petals=[], animating=false;
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+window.addEventListener('resize',resize,{passive:true}); resize();
+
+const COLORS=['#E8A0B0','#F8C0CA','#D4606A','#C9943A','#E8C07A','#A8D8A8','#FBD0D8','#D4A0E0'];
+function newPetal(){
+  const isSparkle=Math.random()<0.25;
+  return{
+    kind:isSparkle?'star':'petal',
+    x:Math.random()*canvas.width, y:-20,
+    sz:isSparkle?3+Math.random()*5:5+Math.random()*11,
+    rot:Math.random()*Math.PI*2, rv:(Math.random()-.5)*.07,
+    vx:(Math.random()-.5)*.9, vy:.55+Math.random()*1.4,
+    col:COLORS[Math.floor(Math.random()*COLORS.length)],
+    a:.45+Math.random()*.4,
+    sw:Math.random()*Math.PI*2, ss:.012+Math.random()*.016, sa:.5+Math.random()*1.6
+  };
+}
+function drawPetal(p){
+  ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot); ctx.globalAlpha=p.a; ctx.fillStyle=p.col;
+  if(p.kind==='petal'){
+    ctx.beginPath(); ctx.ellipse(0,0,p.sz*.42,p.sz,0,0,Math.PI*2); ctx.fill();
+    ctx.globalAlpha=p.a*.25; ctx.fillStyle='#fff';
+    ctx.beginPath(); ctx.ellipse(-p.sz*.1,-p.sz*.3,p.sz*.18,p.sz*.33,-0.3,0,Math.PI*2); ctx.fill();
+  } else {
+    ctx.globalAlpha=p.a*.8;
+    for(let i=0;i<4;i++){
+      ctx.save(); ctx.rotate(i*Math.PI/2);
+      ctx.beginPath(); ctx.moveTo(0,-p.sz); ctx.lineTo(p.sz*.25,-p.sz*.25);
+      ctx.lineTo(p.sz,0); ctx.lineTo(p.sz*.25,p.sz*.25);
+      ctx.lineTo(0,p.sz); ctx.lineTo(-p.sz*.25,p.sz*.25);
+      ctx.lineTo(-p.sz,0); ctx.lineTo(-p.sz*.25,-p.sz*.25);
+      ctx.closePath(); ctx.fill(); ctx.restore();
+    }
+  }
+  ctx.restore();
+}
+function loop(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(petals.length<65&&Math.random()<.4) petals.push(newPetal());
+  petals.forEach(p=>{
+    p.sw+=p.ss; p.x+=p.vx+Math.sin(p.sw)*p.sa; p.y+=p.vy; p.rot+=p.rv;
+    drawPetal(p);
+  });
+  petals=petals.filter(p=>p.y<canvas.height+40&&p.x>-60&&p.x<canvas.width+60);
+  requestAnimationFrame(loop);
+}
+function startPetals(){if(!animating){animating=true;loop()}}
+
+/* ═══ VIDEO RECORDER — getDisplayMedia (best quality) ══════ */
+const recBtn=document.getElementById('recBtn');
+const recStatus=document.getElementById('recStatus');
+const recProg=document.getElementById('recProg');
+const recGuide=document.getElementById('recGuide');
+let recording=false;
+
+function wait(ms){return new Promise(r=>setTimeout(r,ms))}
+
+// Show guide modal first
+recBtn.addEventListener('click',()=>{
+  if(recording)return;
+  recGuide.style.display='flex';
+});
+
+// Start recording after user reads guide
+document.getElementById('recStart').addEventListener('click',async()=>{
+  recGuide.style.display='none';
+  if(recording)return;
+
+  try{
+    // Open envelope first
+    if(!opened){ openEnvelope(); }
+
+    // Request tab capture
+    const stream=await navigator.mediaDevices.getDisplayMedia({
+      video:{frameRate:30},
+      audio:false,
+      preferCurrentTab:true
+    });
+
+    recording=true;
+    recBtn.textContent='⏺ Recording…';
+    recBtn.style.background='rgba(200,30,30,.85)';
+    recStatus.style.display='block';
+
+    const mimeType=MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
+      ?'video/webm;codecs=vp9':'video/webm';
+    const chunks=[];
+    const mr=new MediaRecorder(stream,{mimeType,videoBitsPerSecond:6000000});
+    mr.ondataavailable=e=>{if(e.data.size>0)chunks.push(e.data)};
+    mr.onstop=()=>{
+      const blob=new Blob(chunks,{type:mimeType});
+      const url=URL.createObjectURL(blob);
+      stream.getTracks().forEach(t=>t.stop());
+      recording=false;
+      recBtn.textContent='🎬 Download Video';
+      recBtn.style.background='rgba(0,0,0,.55)';
+      recStatus.style.display='none';
+      recProg.style.width='0%';
+      // Show save overlay
+      const overlay=document.createElement('div');
+      overlay.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.82);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;font-family:Cinzel,serif';
+      overlay.innerHTML=`
+        <div style="color:#E8C878;font-size:clamp(13px,3vw,17px);letter-spacing:.15em;text-align:center">🎬 Your video is ready!</div>
+        <a id="dlBtn" href="${url}" download="Zubair-Umair-Wedding-Invitation.webm"
+           style="display:inline-block;padding:16px 40px;background:#C9943A;color:#0E0C0A;font-family:Cinzel,serif;font-size:15px;letter-spacing:.2em;border-radius:3px;text-decoration:none;font-weight:700;cursor:pointer">
+          ⬇ SAVE VIDEO
+        </a>
+        <div style="color:rgba(255,255,255,.4);font-size:11px;letter-spacing:.1em;text-align:center;max-width:280px">
+          Click the button above to save.<br>Or right-click → Save link as…
+        </div>
+        <button onclick="this.parentElement.remove();URL.revokeObjectURL('${url}')"
+          style="margin-top:8px;background:none;border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.45);font-family:Cinzel,serif;font-size:10px;letter-spacing:.2em;padding:8px 20px;cursor:pointer;border-radius:2px">
+          CLOSE
+        </button>`;
+      document.body.appendChild(overlay);
+    };
+
+    mr.start(300);
+
+    // Auto-play timeline
+    const sls=document.querySelectorAll('.slide');
+    const totalDur=22000;
+    const startT=performance.now();
+    const progTick=setInterval(()=>{
+      const pct=Math.min(100,(performance.now()-startT)/totalDur*100);
+      recProg.style.width=pct+'%';
+      if(pct>=100)clearInterval(progTick);
+    },200);
+
+    await wait(2400);
+    for(let i=0;i<sls.length;i++){
+      sls[i].scrollIntoView({behavior:'smooth'});
+      await wait(i===0?3800:3200);
+    }
+    await wait(1800);
+    clearInterval(progTick);
+    recProg.style.width='100%';
+    mr.stop();
+
+  }catch(err){
+    recording=false;
+    recBtn.textContent='🎬 Download Video';
+    recBtn.style.background='rgba(0,0,0,.55)';
+    recStatus.style.display='none';
+    if(err.name!=='NotAllowedError'){
+      alert('Could not start recording.\n\nMake sure you:\n1. Opened this file in Chrome or Edge\n2. Selected "This Tab" when sharing');
+    }
+  }
+});
+
+document.getElementById('recCancel').addEventListener('click',()=>{
+  recGuide.style.display='none';
+});
+</script>
+
+<!-- ════════════ RECORD UI ════════════ -->
+<style>
+#recBtn{
+  position:fixed;bottom:max(22px,env(safe-area-inset-bottom,0px));right:20px;
+  z-index:500;padding:11px 18px;
+  background:rgba(10,5,8,.7);
+  border:1px solid rgba(232,192,90,.5);border-radius:30px;
+  color:#E8C05A;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.1em;
+  cursor:pointer;backdrop-filter:blur(14px);transition:all .3s;
+  display:flex;align-items:center;gap:8px;
+  box-shadow:0 4px 24px rgba(0,0,0,.5),0 0 0 1px rgba(232,192,90,.1);
+}
+#recBtn:hover{background:rgba(232,192,90,.15);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.6)}
+
+#recStatus{
+  position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:502;
+  background:rgba(12,4,8,.94);color:#E8C05A;
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:.18em;
+  padding:12px 26px 10px;border-radius:26px;display:none;
+  backdrop-filter:blur(16px);border:1px solid rgba(232,192,90,.3);
+  min-width:250px;text-align:center;box-shadow:0 6px 30px rgba(0,0,0,.6);
+}
+#recProg-wrap{height:3px;background:rgba(232,192,90,.15);border-radius:2px;margin-top:10px;overflow:hidden}
+#recProg{height:100%;width:0%;background:linear-gradient(90deg,#C9943A,#F0D070,#C9943A);border-radius:2px;transition:width .25s linear}
+@keyframes recDot{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* Guide modal */
+#recGuide{
+  position:fixed;inset:0;z-index:600;
+  background:rgba(0,0,0,.82);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:24px;
+}
+.rg-box{
+  background:linear-gradient(160deg,#1E0818 0%,#2D1028 100%);
+  border:1px solid rgba(232,192,90,.35);border-radius:16px;
+  padding:32px 28px;max-width:360px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);text-align:center;
+}
+.rg-title{font-family:'Great Vibes',cursive;font-size:32px;color:#E8C05A;margin-bottom:6px}
+.rg-sub{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.4em;color:rgba(232,192,90,.5);text-transform:uppercase;margin-bottom:24px}
+.rg-steps{text-align:left;display:flex;flex-direction:column;gap:14px;margin-bottom:28px}
+.rg-step{display:flex;gap:12px;align-items:flex-start}
+.rg-num{
+  min-width:26px;height:26px;border-radius:50%;
+  background:rgba(232,192,90,.15);border:1px solid rgba(232,192,90,.4);
+  color:#E8C05A;font-family:'Cinzel',serif;font-size:11px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.rg-txt{font-family:'Cormorant Garamond',serif;font-size:15px;color:rgba(255,255,255,.75);line-height:1.5}
+.rg-txt b{color:#E8C05A;font-weight:600}
+.rg-btns{display:flex;gap:10px;justify-content:center}
+.rg-go{
+  padding:11px 28px;background:linear-gradient(135deg,#C9943A,#E8C05A);
+  border:none;border-radius:24px;color:#1A0510;
+  font-family:'Cinzel',serif;font-size:11px;font-weight:700;letter-spacing:.1em;
+  cursor:pointer;transition:all .3s;
+}
+.rg-go:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,148,58,.4)}
+.rg-cancel{
+  padding:11px 20px;background:transparent;
+  border:1px solid rgba(255,255,255,.15);border-radius:24px;color:rgba(255,255,255,.4);
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:.08em;cursor:pointer;transition:all .3s;
+}
+.rg-cancel:hover{border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.6)}
+</style>
+
+<button id="recBtn">🎬 Download Video</button>
+
+<div id="recStatus">
+  <span style="animation:recDot 1s ease-in-out infinite">●</span> &nbsp;REC — Auto-playing…
+  <div id="recProg-wrap"><div id="recProg"></div></div>
+</div>
+
+<!-- Guide Modal -->
+<div id="recGuide">
+  <div class="rg-box">
+    <div class="rg-title">Record Video</div>
+    <div class="rg-sub">Follow these steps</div>
+    <div class="rg-steps">
+      <div class="rg-step">
+        <div class="rg-num">1</div>
+        <div class="rg-txt">Click <b>Start Recording</b> below — a share popup will appear</div>
+      </div>
+      <div class="rg-step">
+        <div class="rg-num">2</div>
+        <div class="rg-txt">In the popup, click the <b>Chrome Tab</b> option at the top</div>
+      </div>
+      <div class="rg-step">
+        <div class="rg-num">3</div>
+        <div class="rg-txt">Select <b>this invitation tab</b> and click <b>Share</b></div>
+      </div>
+      <div class="rg-step">
+        <div class="rg-num">4</div>
+        <div class="rg-txt">Sit back — it <b>auto-plays everything</b> and downloads the video (~22 sec)</div>
+      </div>
+    </div>
+    <div class="rg-btns">
+      <button class="rg-cancel" id="recCancel">Cancel</button>
+      <button class="rg-go" id="recStart">▶ Start Recording</button>
+    </div>
+  </div>
+</div>
